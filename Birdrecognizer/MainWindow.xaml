@@ -1,0 +1,119 @@
+﻿<Window x:Class="Birdrecognizer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Birdrecognizer"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="675" Width="1200">
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Name="StyleFontSize">
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="13.694"/>
+            <RowDefinition Height="124.306"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <Ribbon Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="2" x:Name="Meny">
+            <Ribbon.ApplicationMenu>
+
+                <RibbonApplicationMenu>
+                    <TextBlock x:Name="appMenuHeader" FontSize="15" FontWeight="Bold" Margin="0,0,0,10">Birdrecognizer</TextBlock>
+                    <RibbonApplicationMenuItem Header="Åpne fil" FontSize="15" Click="openFileWBird_Click"/>
+                    <RibbonApplicationMenuItem Header="Forlat programmet" FontSize="15" Click="Leave_Click"/>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <RibbonTab Header="Meny">
+                <RibbonGroup Header="Fil">
+                    <RibbonGroup.GroupSizeDefinitions>
+                        <RibbonGroupSizeDefinition>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                        </RibbonGroupSizeDefinition>
+                    </RibbonGroup.GroupSizeDefinitions>
+                    <RibbonButton x:Name="OpenFile"
+                  FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                  FontSize="32"
+                  Label="&#xE838;"
+                  ToolTipService.ToolTip="Åpne fil"
+                  Click="openFileWBird_Click"
+                  KeyTip="F" />
+                    <RibbonButton x:Name="Leave"
+                    FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                    FontSize="32"
+                    Label="&#xF3B1;"
+                    ToolTipService.ToolTip="Forlat programmet"
+                    Click="Leave_Click"
+                    KeyTip="X" />
+
+                </RibbonGroup>
+                <RibbonGroup Header="Rediger">
+                    <RibbonGroup.GroupSizeDefinitions>
+                        <RibbonGroupSizeDefinition>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                        </RibbonGroupSizeDefinition>
+                    </RibbonGroup.GroupSizeDefinitions>
+                    <RibbonButton x:Name="CopyText"
+                  FontFamily="Segoe MDL2 Assets"
+                  FontSize="32"
+                  Label="&#xF0E3;"
+                  ToolTipService.ToolTip="Kopier tekst"
+                  Click="CopyText_Click"
+                  KeyTip="C" />
+
+                    <RibbonButton x:Name="IncreaseFontsize"
+                  FontFamily="Segoe MDL2 Assets"
+                  FontSize="32"
+                  Label="&#xE8E8;"
+                  ToolTipService.ToolTip="Øk skriftstørrelse"
+                  Click="IncreaseFontsize_Click"
+                  KeyTip="+" />
+
+                    <RibbonButton x:Name="DencreaseFontsize"
+                  FontFamily="Segoe MDL2 Assets"
+                  FontSize="32"
+                  Label="&#xE8E7;"
+                  ToolTipService.ToolTip="Reduser skriftstørrelse"
+                  Click="DencreaseFontsize_Click"
+                  KeyTip="-" />
+                </RibbonGroup>
+
+            </RibbonTab>
+        </Ribbon>
+
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="imagePath" MaxHeight="20" Margin="0,0,35,0"/>
+        <Button Grid.Row="2" Grid.Column="3" x:Name="getImagePath" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Content="" MaxHeight="18" Click="openFileWBird_Click"/>
+        <Image Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" x:Name="birdImage" Margin="0,26,20,0"></Image>
+        <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="dataTab" Margin="562,26,0,0" Grid.RowSpan="2">
+            <TabItem Header="Gjenkjent fugl">
+                <TextBlock x:Name="recognizedBird" TextWrapping="Wrap">Velkommen til Fuglegjenkjenneren</TextBlock>
+            </TabItem>
+            <TabItem Header="Wikipedia norsk">
+                <wv2:WebView2 x:Name="NorWikiBrowser"/>
+            </TabItem>
+            <TabItem Header="Wikipedia engelsk">
+                <wv2:WebView2 x:Name="EngWikiBrowser"/>
+            </TabItem>
+        </TabControl>
+        <StatusBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5">
+            <TextBlock x:Name="statusText" FontSize="14" FontWeight="Bold" Margin="5,0,0,0">Status: Ingen bilde valgt</TextBlock>
+            <ProgressBar x:Name="statusProgress" Margin="0,0,0,0" Height="20" Width="400" Value="0"/>
+        </StatusBar>
+    </Grid>
+</Window>
