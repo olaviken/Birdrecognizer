@@ -45,7 +45,7 @@
                             <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
                         </RibbonGroupSizeDefinition>
                     </RibbonGroup.GroupSizeDefinitions>
-                    <RibbonButton x:Name="OpenFile"
+                    <RibbonButton x:Name="openFile"
                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                   FontSize="32"
                   Label="&#xE838;"
