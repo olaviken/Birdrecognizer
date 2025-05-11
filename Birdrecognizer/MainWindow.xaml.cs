@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,48 +33,37 @@ namespace Birdrecognizer
                 statusText.Text = "Oppgi bildefil";
                 statusProgress.Value = 10;
 
-                var result = new Birdrecognizer.ModelOutput();
-                string path = openFile.getFilePath();
+                var result = new BirdrecognizerAI.ModelOutput();
+                string path = OpenFile.getFilePath();
 
                 statusText.Text = "Henter bilde av en fugl";
                 statusProgress.Value = 20;
                 await Task.Delay(delay);
 
-                if (path == string.Empty)
-                {
-                    return;
-                }
-                else
-                {
+                if (string.IsNullOrEmpty(path)) return;
+                
+                imagePath.Text = path;
+                birdImage.Source = new BitmapImage(new Uri(path));
 
-                    imagePath.Text = path;
-                    birdImage.Source = new BitmapImage(new Uri(path));
-                    var inputImage = new Birdrecognizer.ModelInput()
-                    {
-                        ImageSource = System.IO.File.ReadAllBytes(path)
-                    };
+                statusText.Text = "Analyserer bilde";
+                statusProgress.Value = 40;
+                await Task.Delay(delay);
 
-                    statusText.Text = "Analyserer bilde";
-                    statusProgress.Value = 40;
-                    await Task.Delay(delay);
+                BirdResult birdResult = await BirdResult.AnalyzeImage(path);
+                
+                statusText.Text = "Henter Wikipedia artikler";
+                statusProgress.Value = 80;
+                await Task.Delay(delay);
 
-                    result = Birdrecognizer.PredictEngine.Value.Predict(inputImage);
+                EngWikiBrowser.Source = Wikipedia.getEngWiki(birdResult.BirdName);
+                NorWikiBrowser.Source = Wikipedia.getNoWiki(birdResult.BirdName);
+                
+                recognizedBird.Text = Wikipedia.GetSummary(birdResult.BirdName, birdResult.Score);
+                
+                statusText.Text = "Ferdig!";
+                statusProgress.Value = 0;
 
-                    statusText.Text = "Henter Wikipedia artikler";
-                    statusProgress.Value = 80;
-                    await Task.Delay(delay);
-
-                    Uri engUri = new Uri(Wikipedia.getEngWiki(result.PredictedLabel));
-                    Uri noUri = new Uri(Wikipedia.getNoWiki(result.PredictedLabel));
-                    EngWikiBrowser.Source = engUri;
-                    NorWikiBrowser.Source = noUri;
-
-                    recognizedBird.Text = $"Denne modellen gjenkjenner følgende fugl: {result.PredictedLabel}. \nMed {float.Round(100 * result.Score[3], 2)}% sannsynlighet \nPå de neste fanene kan du lese hva som står på wikipedia om denne fuglen.";
-
-                    statusText.Text = "Ferdig!";
-                    statusProgress.Value = 0;
-
-                }
+                
             }
             catch (FileNotFoundException)
             {
@@ -93,7 +83,7 @@ namespace Birdrecognizer
         private void IncreaseFontsize_Click(object sender, RoutedEventArgs e)
         {
 
-            GlobalFontSize = BirdStyle.IncreaseFontSize(GlobalFontSize);
+            GlobalFontSize = BirdSupport.IncreaseFontSize(GlobalFontSize);
             recognizedBird.FontSize = GlobalFontSize;
 
             if (EngWikiBrowser.CoreWebView2 != null)
@@ -110,15 +100,43 @@ namespace Birdrecognizer
         private void DencreaseFontsize_Click(object sender, RoutedEventArgs e)
         {
 
-            GlobalFontSize = BirdStyle.DecreaseFontSize(GlobalFontSize);
+            GlobalFontSize = BirdSupport.DecreaseFontSize(GlobalFontSize);
             recognizedBird.FontSize = GlobalFontSize;
+
+            if (EngWikiBrowser.CoreWebView2 != null)
+            {
+                EngWikiBrowser.CoreWebView2.ExecuteScriptAsync("document.body.style.zoom = parseFloat(document.body.style.zoom || 1) - 0.1;");
+            }
+
+            if (NorWikiBrowser.CoreWebView2 != null)
+            {
+                NorWikiBrowser.CoreWebView2.ExecuteScriptAsync("document.body.style.zoom = parseFloat(document.body.style.zoom || 1) - 0.1;");
+            }
         }
 
-        private void CopyText_Click(object sender, RoutedEventArgs e)
+        private async void CopyText_Click(object sender, RoutedEventArgs e)
         {
-            /*Ikke ferdig med denne. Trenger at funksjonen skiller mellom eng og nor side.*/
-            NorWikiBrowser.CoreWebView2.ExecuteScriptAsync("document.execCommand('copy');");
-            EngWikiBrowser.CoreWebView2.ExecuteScriptAsync("document.execCommand('copy');");
+            string norText = await BirdSupport.CopySelectedText(NorWikiBrowser.CoreWebView2);
+            string engText = await BirdSupport.CopySelectedText(EngWikiBrowser.CoreWebView2);
+
+            string copiedText = string.Empty;
+            if (!string.IsNullOrWhiteSpace(norText))
+            {
+                copiedText = norText;
+            }
+            else if (!string.IsNullOrWhiteSpace(engText))
+            {
+                copiedText = engText;
+            }
+            if (!string.IsNullOrWhiteSpace(copiedText))
+            {
+                Clipboard.SetText(copiedText);
+                MessageBox.Show("Teksten er kopiert til utklippstavlen.", "Kopier tekst", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Ingen tekst ble valgt.", "Ingen tekst", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
