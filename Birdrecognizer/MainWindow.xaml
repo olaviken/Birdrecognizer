@@ -121,18 +121,21 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock x:Name="recognizedBird" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap">Velkommen til Fuglegjenkjenneren</TextBlock>
+                    
+                    <!-- Code below is related to adding data and relearning the model. Because this takes a long time it is hidden from user. -->
                     <TextBlock x:Name="correctBird" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Margin="2" Text="Er dette riktig fugl?" Visibility="Hidden"/>
                     <Button x:Name="correctBirdYes" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Hidden" Click="correctBirdYes_Click" />
                     <Button x:Name="correctBirdNo" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Hidden" Click="correctBirdNo_Click" />
                     <TextBlock x:Name="newBird" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="2" Text="Er dette en ny fugl?" Visibility="Hidden"/>
                     <Button x:Name="newBirdYes" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Hidden" Click="newBirdYes_Click"/>
                     <Button x:Name="newBirdNo" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Hidden" Click="newBirdNo_Click"/>
-                    <TextBlock x:Name="addPictureToExistingBird" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" Margin="2" Text="Vil du legge bilde til fugl?" Visibility="Visible"/>
-                    <Button x:Name="addPictureToExistingBirdYes" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Visible" Click="addPictureToExistingBirdYes_Click"/>
-                    <Button x:Name="addPictureToExistingBirdNo" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Visible" Click="addPictureToExistingBirdNo_Click"/>
+                    <TextBlock x:Name="addPictureToExistingBird" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" Margin="2" Text="Vil du legge bilde til fugl?" Visibility="Hidden"/>
+                    <Button x:Name="addPictureToExistingBirdYes" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Hidden" Click="addPictureToExistingBirdYes_Click"/>
+                    <Button x:Name="addPictureToExistingBirdNo" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Hidden" Click="addPictureToExistingBirdNo_Click"/>
                     <TextBlock x:Name="newBirdName" Grid.Column="1" Grid.Row="3" Margin="2" Text="Skriv inn latinske navn på ny fugl:" Visibility="Hidden"/>
                     <TextBox x:Name="newBirdNameTextBox" VerticalAlignment="Top" Grid.Column="2" Grid.Row="3" Margin="2" Height="20" Visibility="Hidden"/>
                     <Button x:Name="newBirdNameButton" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="3" Grid.Row="3" Margin="2" Content="Lagre" Width="40" Height="20" Visibility="Hidden" Click="newBirdNameButton_Click"/>
+                    <!-- End of the relearning GUI  -->
                 </Grid>
                 
             </TabItem>
