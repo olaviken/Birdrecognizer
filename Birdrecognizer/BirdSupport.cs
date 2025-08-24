@@ -36,12 +36,13 @@ namespace Birdrecognizer
         
         public async static Task<string> CopySelectedText(CoreWebView2 webView)
         {
-            if (webView != null)
+            if (webView == null)
             {
                 return string.Empty;
             }
-            else { 
-                string javascript = "window.getSelection().toString();";
+            try
+            {
+               string javascript = "window.getSelection().toString();";
                 string result = await webView.ExecuteScriptAsync(javascript);
 
                 if(string.IsNullOrWhiteSpace(result))
@@ -49,6 +50,10 @@ namespace Birdrecognizer
                     return string.Empty;
                 }               
                     return result.Trim('"');
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
     }
