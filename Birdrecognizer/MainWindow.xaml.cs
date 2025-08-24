@@ -183,6 +183,12 @@ namespace Birdrecognizer
             }
         }
 
+        /*
+         * The next methods below is supposed to create a new AI model that is trained with full set of images and added new bird and photo. However this is a time consuming effort so the GUI for these method is hidden. 
+         * These methods have been tested but took 2-4 hours. Therefore they are not included in the main GUI.
+         * */
+
+
         private void correctBirdYes_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Takk for at du bekreftet at dette er riktig fugl!", "Bekreftelse", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -286,6 +292,8 @@ namespace Birdrecognizer
             }
         }
 
+       
+
         private void addPictureToExistingBirdYes_Click(object sender, RoutedEventArgs e)
         {
             // This method should handle adding a picture to an existing bird.
@@ -323,6 +331,7 @@ namespace Birdrecognizer
 
         }
 
+        /* End of methods related to training on new data*/
         
     }
 }
