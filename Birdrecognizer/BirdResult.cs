@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,15 @@ namespace Birdrecognizer
         public string BirdName { get; set; } = string.Empty;
         public float Score { get; set; }
 
-        public static async Task<BirdResult> AnalyzeImage(string path)
+        public static async Task<BirdResult> AnalyzeImage(string path, ITransformer model, MLContext mLContext)
         {
             var inputImage = new BirdrecognizerAI.ModelInput()
             {
-                ImageSource = System.IO.File.ReadAllBytes(path)
+                ImageSource = await System.IO.File.ReadAllBytesAsync(path)
             };
 
-            var result = BirdrecognizerAI.PredictEngine.Value.Predict(inputImage);
+            var predictionEngine = mLContext.Model.CreatePredictionEngine<BirdrecognizerAI.ModelInput, BirdrecognizerAI.ModelOutput>(model);
+            var result = predictionEngine.Predict(inputImage);
 
             return new BirdResult
             {

@@ -97,18 +97,50 @@
             </RibbonTab>
         </Ribbon>
 
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="imagePath" MaxHeight="20" Margin="0,0,35,0"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="imagePath" MaxHeight="20" Margin="0,0,35,0" IsReadOnly="True"/>
         <Button Grid.Row="2" Grid.Column="3" x:Name="getImagePath" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Content="" MaxHeight="18" Click="openFileWBird_Click"/>
         <Image Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" x:Name="birdImage" Margin="0,26,20,0"></Image>
         <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="dataTab" Margin="562,26,0,0" Grid.RowSpan="2">
             <TabItem Header="Gjenkjent fugl">
-                <TextBlock x:Name="recognizedBird" TextWrapping="Wrap">Velkommen til Fuglegjenkjenneren</TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="recognizedBird" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap">Velkommen til Fuglegjenkjenneren</TextBlock>
+                    <TextBlock x:Name="correctBird" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Margin="2" Text="Er dette riktig fugl?" Visibility="Hidden"/>
+                    <Button x:Name="correctBirdYes" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Hidden" Click="correctBirdYes_Click" />
+                    <Button x:Name="correctBirdNo" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Hidden" Click="correctBirdNo_Click" />
+                    <TextBlock x:Name="newBird" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="2" Text="Er dette en ny fugl?" Visibility="Hidden"/>
+                    <Button x:Name="newBirdYes" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Hidden" Click="newBirdYes_Click"/>
+                    <Button x:Name="newBirdNo" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Hidden" Click="newBirdNo_Click"/>
+                    <TextBlock x:Name="addPictureToExistingBird" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" Margin="2" Text="Vil du legge bilde til fugl?" Visibility="Visible"/>
+                    <Button x:Name="addPictureToExistingBirdYes" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Margin="2" Content="Ja" Width="40" Height="20" Visibility="Visible" Click="addPictureToExistingBirdYes_Click"/>
+                    <Button x:Name="addPictureToExistingBirdNo" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="2" Content="Nei" Width="40" Height="20" Visibility="Visible" Click="addPictureToExistingBirdNo_Click"/>
+                    <TextBlock x:Name="newBirdName" Grid.Column="1" Grid.Row="3" Margin="2" Text="Skriv inn latinske navn på ny fugl:" Visibility="Hidden"/>
+                    <TextBox x:Name="newBirdNameTextBox" VerticalAlignment="Top" Grid.Column="2" Grid.Row="3" Margin="2" Height="20" Visibility="Hidden"/>
+                    <Button x:Name="newBirdNameButton" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="3" Grid.Row="3" Margin="2" Content="Lagre" Width="40" Height="20" Visibility="Hidden" Click="newBirdNameButton_Click"/>
+                </Grid>
+                
             </TabItem>
             <TabItem Header="Wikipedia norsk">
-                <wv2:WebView2 x:Name="NorWikiBrowser"/>
+                <wv2:WebView2 x:Name="NorWikiBrowser" Source="https://no.wikipedia.org/"/>
             </TabItem>
             <TabItem Header="Wikipedia engelsk">
-                <wv2:WebView2 x:Name="EngWikiBrowser"/>
+                <wv2:WebView2 x:Name="EngWikiBrowser" Source="https://en.wikipedia.org"/>
             </TabItem>
         </TabControl>
         <StatusBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5">

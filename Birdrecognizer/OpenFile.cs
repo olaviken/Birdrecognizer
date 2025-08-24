@@ -10,11 +10,10 @@ namespace Birdrecognizer
      static internal class OpenFile
     {
         /*
-         * This class is meant for containing methods for opening and saving files. 
-         * In this application it's only neccesary to open image files.
+         * This class is meant for containing methods for opening and saving files.         
          * This can be extended for future use with different file types.
          */
-        private static string filePath()
+        public static string getFilePathImage()
         {
             string path = string.Empty;
             OpenFileDialog openFile = new OpenFileDialog();
@@ -24,16 +23,12 @@ namespace Birdrecognizer
             openFile.CheckFileExists = true;
             openFile.CheckPathExists = true;
             openFile.InitialDirectory = Environment.CurrentDirectory;
+
             if (openFile.ShowDialog() == true)
             {
                 path = openFile.FileName;
             }
-            return path;
-        }
 
-        public static string getFilePath()
-        {
-            string path = filePath();
             if (path == string.Empty)
             {
                 return string.Empty;
